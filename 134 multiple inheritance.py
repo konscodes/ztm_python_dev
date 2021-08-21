@@ -42,3 +42,20 @@ hybrid1 = HybridBorg('Borgy', 50, 40, 'borg@gmail.com')
 print(hybrid1.run())
 print(hybrid1.check_arrows()) # multiple inheritance happening here
 print(hybrid1.attack())
+
+# MRO - Method resoluton order 
+
+class A:
+    num = 10
+
+class B(A):
+    pass
+
+class C(A):
+    num = 1
+
+class D(B, C):
+    pass
+
+print(D.num)
+print(D.mro())
