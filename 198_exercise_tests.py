@@ -1,16 +1,20 @@
-import os
-from pathlib import Path
+import unittest
+from files import test_exercise_random_answer
 
-script_path = Path(__file__).resolve()
-script_parent = script_path.parent
-#data_file_path = script_parent / 'files' / 'text.txt'
+class TestClass(unittest.TestCase):
+    def test_correct_input(self):
+        user_choice = 1
+        answer = 1
+        result = test_exercise_random_answer.continue_input(user_choice, answer)
+        self.assertFalse(result)
+    
+    
+    def test_none_input(self):
+        user_choice = 5
+        answer = 1
+        result = test_exercise_random_answer.continue_input(user_choice, answer)
+        self.assertTrue(result)
 
-onlyfiles = [f for f in os.listdir(script_parent) if os.path.isfile(os.path.join(script_parent, f))]
-print(onlyfiles)
 
-for filename in onlyfiles:
-    newfilename = filename.replace(" ", "_")
-    print(newfilename)
-    oldfilepath = script_parent / filename
-    newfilepath = script_parent / newfilename
-    os.rename(oldfilepath, newfilepath)
+if __name__ == '__main__':
+    unittest.main()
