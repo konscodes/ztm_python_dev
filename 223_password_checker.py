@@ -15,16 +15,17 @@ def get_hash(password):
 def query(hash):
     query = requests.get('https://api.pwnedpasswords.com/range/' + hash[:5])
     print(query.status_code)
-    data_list = query.text.split()
-    data_dict = {}
-    for item in data_list:
+    text = query.text.split()
+    data = {}
+    for item in text:
         key, value = item.split(sep=':')
-        data_dict[key] = value
-    print(data_dict)
+        data[key] = value
+    return data
 
 
 for password in argv[1:]:
     get_hash(password)
 
 for hash in hash_list:
-    query(hash)
+    data = query(hash)
+    print(data)
