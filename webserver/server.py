@@ -1,23 +1,20 @@
 from flask import Flask, render_template, request
 from pathlib import Path
-import os
+import csv
 
 script_path = Path(__file__).resolve()
 script_parent = script_path.parent
-data_file_path = script_parent / 'database.txt'
+data_file_path = script_parent / 'database.csv'
 app = Flask(__name__)
 
-def append_new_line(file_name, what_to_append):
-    with open(file_name, "a+") as file_object:
-        file_object.seek(0)
-        data = file_object.read(100)
-        if len(data) > 0:
-            file_object.write("\n")
+def append_new_line(file_path, what_to_append):
+    with open(file_path, 'a') as file_object:
         name = what_to_append['name']
         email = what_to_append['email']
         subject = what_to_append['subject']
         message = what_to_append['message']
-        file_object.write(f'{name}, {email}, {subject}, {message}')
+        csv_writer = csv.writer(file_object)
+        csv_writer.writerow([name, email, subject, message])
 
 @app.route('/')
 def home():
