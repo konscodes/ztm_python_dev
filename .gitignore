@@ -1,3 +1,4 @@
 modules/__pycache__/utility.cpython-38.pyc
 webserver/__pycache__
 automation/chromedriver
+.DS_Store
