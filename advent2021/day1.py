@@ -19,6 +19,7 @@ def read_data(file_path):
         data_list = list(map(lambda i:int(i), data_list))
     return data_list
 
+
 def compare_data(list_of_int):
     previous_item = list_of_int[0]
     increased_counter = 0 
@@ -34,6 +35,29 @@ def compare_data(list_of_int):
             previous_item = current_item
     return increased_counter, decreased_counter
 
+
+def compare_sliding_window(list_of_int, window_size=3): 
+    increased_counter = 0
+    decreased_counter = 0
+    previous_sum = sum(list_of_int[:3])
+    for index, item in enumerate(list_of_int):
+        if index >= 2:
+            last_three_index = [index-x for x in range(window_size)]
+            last_three_items = [list_of_int[y] for y in last_three_index]
+            current_sum = sum(last_three_items)
+            if current_sum > previous_sum:
+                increased_counter += 1
+                previous_sum = current_sum
+            elif current_sum < previous_sum:
+                decreased_counter += 1
+                previous_sum = current_sum
+            else: 
+                previous_sum = current_sum
+    return increased_counter, decreased_counter
+
+
 measurements = read_data(data_file_path)
-result = compare_data(measurements)
-print(f'Measurement increased {result[0]} times')
+result1 = compare_data(measurements)
+print(f'Measurement increased {result1[0]} times')
+result2 = compare_sliding_window(measurements)
+print(f'Measurement increased {result2[0]} times using sliding window method')
