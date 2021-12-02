@@ -23,22 +23,15 @@ def read_data(file_path):
 def compare_data(list_of_int):
     previous_item = list_of_int[0]
     increased_counter = 0 
-    decreased_counter = 0
     for current_item in list_of_int:
         if current_item > previous_item:
             increased_counter += 1
-            previous_item = current_item
-        elif current_item < previous_item:
-            decreased_counter += 1
-            previous_item = current_item
-        else: 
-            previous_item = current_item
-    return increased_counter, decreased_counter
+        previous_item = current_item
+    return increased_counter
 
 
 def compare_sliding_window(list_of_int, window_size=3): 
     increased_counter = 0
-    decreased_counter = 0
     previous_sum = sum(list_of_int[:3])
     for index, item in enumerate(list_of_int):
         if index >= 2:
@@ -47,17 +40,14 @@ def compare_sliding_window(list_of_int, window_size=3):
             current_sum = sum(last_three_items)
             if current_sum > previous_sum:
                 increased_counter += 1
-                previous_sum = current_sum
-            elif current_sum < previous_sum:
-                decreased_counter += 1
-                previous_sum = current_sum
-            else: 
-                previous_sum = current_sum
-    return increased_counter, decreased_counter
+            previous_sum = current_sum
+    return increased_counter
 
 
 measurements = read_data(data_file_path)
+
 result1 = compare_data(measurements)
-print(f'Measurement increased {result1[0]} times')
+print(f'Measurement increased {result1} times')
+
 result2 = compare_sliding_window(measurements)
-print(f'Measurement increased {result2[0]} times using sliding window method')
+print(f'Measurement increased {result2} times using sliding window method')
