@@ -1,5 +1,10 @@
+# Part 1
 # Count the number of times a depth measurement increases from the previous measurement.
 # In test.txt example, there are 7 measurements that are larger than the previous measurement.
+# 
+# Part 2
+# Your goal now is to count the number of times the sum of measurements in this sliding window increases from the previous sum.
+# In test.txt example, there are 5 sums that are larger than the previous sum.
 
 from pathlib import Path
 
