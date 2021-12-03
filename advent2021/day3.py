@@ -9,7 +9,7 @@ from pathlib import Path
 
 script_path = Path(__file__).resolve()
 script_parent = script_path.parent
-data_file_path = script_parent / 'files' / 'test3.txt'
+data_file_path = script_parent / 'files' / 'day3.txt'
 
 def read_data(file_path):
     with open(file_path) as file_object:
@@ -20,6 +20,7 @@ def read_data(file_path):
 
 def get_transposed_data(data: list):
     keydict = {}
+    data = data.copy()
     for i in range(len(data[0])):
         keydict[i] = []
     for line in data:
@@ -51,29 +52,55 @@ def convert_to_decimal(binary: list):
     return decimal
 
 
-def filter_data(data: list, condition: list):
-    condition = condition.copy()
-    data = data.copy()
-    print(condition)
-    print(data)
-    list_1 = []
-    while len(data) > 1:
-        for index, condition_value in enumerate(condition):
-            list_1 = [item for item in data if item[index] == str(condition_value)]
-            print('list ', list_1)
-            print('old data', data)
-            data = list(set(list_1) & set(data))
-            print('new data ', data)
-
-    print(data)
-
-    
 data_list = read_data(data_file_path)
 data_transposed = get_transposed_data(data_list)
 common_value = find_common(data_transposed)
 gamma = convert_to_decimal(common_value[0])
-elipson = convert_to_decimal(common_value[1])
-print(f'Gamma rate is {gamma} and elipson rate is {elipson}')
-print(f'Power consumption is {gamma * elipson}')
+epsilon = convert_to_decimal(common_value[1])
+print(f'Gamma rate is {gamma} and epsilon rate is {epsilon}')
+print(f'Power consumption is {gamma * epsilon}')
 
-filter_data(data_list, common_value[0])
+
+# Part2
+# https://adventofcode.com/2021/day/3#part2
+
+def check_func(index_to_check, bit_sequence, number_list, type):
+    if type == 'Oxygen':
+        if bit_sequence.count('1') > bit_sequence.count('0'):
+            filtered_list = [item for item in number_list if item[index_to_check] == '1']
+        elif bit_sequence.count('0') > bit_sequence.count('1'):
+            filtered_list = [item for item in number_list if item[index_to_check] == '0']
+        else:
+            filtered_list = [item for item in number_list if item[index_to_check] == '1']
+    else:
+        if bit_sequence.count('1') > bit_sequence.count('0'):
+            filtered_list = [item for item in number_list if item[index_to_check] == '0']
+        elif bit_sequence.count('0') > bit_sequence.count('1'):
+            filtered_list = [item for item in number_list if item[index_to_check] == '1']
+        else:
+            filtered_list = [item for item in number_list if item[index_to_check] == '0']
+    return filtered_list
+
+
+def filter_func(data_list, type):
+    result = data_list.copy()
+    data_transposed = get_transposed_data(result)
+    for index, value in enumerate(data_list):
+        try:
+            result = check_func(index, data_transposed[index], result, type)
+            data_transposed = get_transposed_data(result)
+            if len(result) == 1:
+                break
+        except KeyError as err:
+            print('Key error at ', err)
+    return result
+
+
+oxygen_binary = filter_func(data_list, 'Oxygen')
+oxygen_binary = [[int(i) for i in item] for item in oxygen_binary]
+oxygen = convert_to_decimal(oxygen_binary[0])
+co2_binary = filter_func(data_list, 'CO2')
+co2_binary = [[int(i) for i in item] for item in co2_binary]
+co2 = convert_to_decimal(co2_binary[0])
+print(f'Oxygen is {oxygen} and CO2 is {co2}')
+print(f'Life support rating is {oxygen * co2}')
