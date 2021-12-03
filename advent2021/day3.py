@@ -43,6 +43,7 @@ def find_common(data: dict):
 
 def convert_to_decimal(binary: list):
     decimal = 0
+    binary = binary.copy()
     for i in range(len(binary)):
         digit = binary.pop()
         if digit == 1:
@@ -50,6 +51,23 @@ def convert_to_decimal(binary: list):
     return decimal
 
 
+def filter_data(data: list, condition: list):
+    condition = condition.copy()
+    data = data.copy()
+    print(condition)
+    print(data)
+    list_1 = []
+    while len(data) > 1:
+        for index, condition_value in enumerate(condition):
+            list_1 = [item for item in data if item[index] == str(condition_value)]
+            print('list ', list_1)
+            print('old data', data)
+            data = list(set(list_1) & set(data))
+            print('new data ', data)
+
+    print(data)
+
+    
 data_list = read_data(data_file_path)
 data_transposed = get_transposed_data(data_list)
 common_value = find_common(data_transposed)
@@ -57,3 +75,5 @@ gamma = convert_to_decimal(common_value[0])
 elipson = convert_to_decimal(common_value[1])
 print(f'Gamma rate is {gamma} and elipson rate is {elipson}')
 print(f'Power consumption is {gamma * elipson}')
+
+filter_data(data_list, common_value[0])
