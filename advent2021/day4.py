@@ -27,14 +27,15 @@ def read_data(file_path):
 
 def bingo(numbers, boards):
     winner_board = {'index': 0, 'board': 0}
-    print(numbers)
-    matched = {}
+    matched = {b:{i:[] for i in range(5)} for b in boards.keys()}
     for number in numbers:
+        print(number)
         for dict_key in boards.keys():
             board = boards.get(dict_key)
             for row_index, row in enumerate(board):
-                print(row)
                 if number in row:
+                    matched_dict = matched[dict_key]
+                    matched_dict.get(row_index).append(row.index(number))
                 # Check if number in each row
                 #   Create a dict of dicts to store the match data
                 #   Save the match row_index, element_index, dict_key
@@ -42,8 +43,7 @@ def bingo(numbers, boards):
                 #   If counter == 5
                 #       set winner flag to True
                 #       winner_board = dict_key 
-                #       
-                    pass
+        print(matched)
         # Check if winner exists
         # If winner is True return winner board
     return winner_board
