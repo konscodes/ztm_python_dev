@@ -3,7 +3,7 @@ from pathlib import Path
 
 path = Path(__file__).resolve()
 parent = path.parent
-file_path = parent / 'files' / 'test7.txt'
+file_path = parent / 'files' / 'day7.txt'
 
 def read_data(file_path):
     with open(file_path) as file_object:
@@ -25,9 +25,11 @@ def selection(data):
         if sum(counter[start:position]) > sum(counter[position:end]):
             end = position
         else: start = position
-    return position
-
+    fuel = 0
+    for i in horizontal:
+        fuel += abs(i - position)
+    return fuel
 
 data = read_data(file_path)
-position = selection(data)
-print(position)
+result = selection(data)
+print(result)
