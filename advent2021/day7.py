@@ -1,5 +1,6 @@
 # Part1
 from pathlib import Path
+import statistics
 
 path = Path(__file__).resolve()
 parent = path.parent
@@ -11,8 +12,8 @@ def read_data(file_path):
         data = [int(i) for i in data]
     return data
 
-
-def selection(data):
+# Working but only with test data
+def first_try(data):
     horizontal = data.copy()
     counter = [0 for x in range(max(horizontal)+1)]
     for i in horizontal:
@@ -30,6 +31,26 @@ def selection(data):
         fuel += abs(i - position)
     return fuel
 
+# Not working just like this, need to add mode and median to compare
+def simple_mean(data):
+    horizontal = data.copy()
+    mean = sum(horizontal) / len(horizontal)
+    print(mean, int(mean))
+    fuel = sum([abs(int(mean) - i) for i in horizontal])
+    return fuel
+
+
+def easy_way(data):
+    pos = data.copy()
+    mean = statistics.mean(pos)
+    median = statistics.median(pos)
+    mode = statistics.mode(pos)
+    possible_best = mean, median, mode
+    print(possible_best)
+    fuel = [sum([abs(x - int(i)) for x in pos]) for i in possible_best]
+    return fuel
+
+
 data = read_data(file_path)
-result = selection(data)
-print(result)
+result = easy_way(data)
+print(f'Best distance is {min(result)}')
