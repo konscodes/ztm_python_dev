@@ -1,10 +1,11 @@
 # Part1
 from pathlib import Path
 import statistics
+import matplotlib.pyplot as plt
 
 path = Path(__file__).resolve()
 parent = path.parent
-file_path = parent / 'files' / 'day7.txt'
+file_path = parent / 'files' / 'test7.txt'
 
 def read_data(file_path):
     with open(file_path) as file_object:
